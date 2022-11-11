@@ -1,5 +1,8 @@
 <script lang="ts">
+	import { navbarTitle } from '$lib/stores';
 	import Button from '@smui/button';
+
+	navbarTitle.set('Taman Sari')
 </script>
 
 <h1>Welcome to</h1>

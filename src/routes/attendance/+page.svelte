@@ -4,10 +4,11 @@
 	
 	import PersonList from './PersonList.svelte';
 	import DatePagination from './_DatePagination.svelte';
+	import { navbarTitle } from '$lib/stores';
 
 	let isLoading = true;	
 	let activeDate = new Date();
-
+	navbarTitle.set('Attendance Management')
 	onMount(() => {
 		// Simulate loading
 		setTimeout(() => {

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { dateToString } from '$lib/helpers';
 	import { addDays } from '$lib/helpers';
+	import { navbarTitle } from '$lib/stores';
 	import LinearProgress from '@smui/linear-progress';
 	import DateTabs from '../attendance/DateTabs.svelte';
 	import ResidencyTable from './ResidencyTable.svelte';
@@ -11,6 +12,7 @@
 	let tabs: string[] = [...Array(5)].map((_, i) => dateToString(addDays(today, i - 2)));
   let isLoading = true;
 
+	navbarTitle.set('Daily Information')
   setTimeout(() => {
     isLoading = false
   }, 1000)
