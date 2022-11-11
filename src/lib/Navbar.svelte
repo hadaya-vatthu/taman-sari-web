@@ -12,7 +12,7 @@
 			<Title>{title}</Title>
 		</Section>
 		<Section align="end" toolbar>
-			<IconButton class="material-icons" aria-label="Bookmark this page">bookmark</IconButton>
+			<IconButton class="material-icons" aria-label="Go to Home" href="/">home</IconButton>
 		</Section>
 	</Row>
 </TopAppBar>

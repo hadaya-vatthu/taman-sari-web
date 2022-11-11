@@ -28,7 +28,7 @@
 	.table-wrapper {
 		display: flex;
 		justify-content: center;
-		margin-top: 30px;
+		margin-top: 8px;
 		padding: 0 16px;
 	}
 </style>

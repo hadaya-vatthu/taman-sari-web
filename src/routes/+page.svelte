@@ -5,5 +5,5 @@
 <h1>Welcome to</h1>
 <h2>Taman Sari</h2>
 
-<Button href="/attendance">Go to Attendance Management Page</Button>
-<Button href="/attendees">Go to Attendees Page</Button>
+<Button href="/daily-information">Daily Information</Button>
+<Button href="/attendance">Attendance Management</Button>

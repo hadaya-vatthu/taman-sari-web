@@ -38,12 +38,6 @@
 	];
 </script>
 
-<pre class="status">Selected: {selected.join(', ')}</pre>
-
-<pre class="status">Change Event Detail: {changeEvent
-		? JSON.stringify(changeEvent.detail)
-		: 'No change yet.'}</pre>
-
 <div>
 	<List class="demo-list" checkList on:SMUIList:selectionChange={(event) => (changeEvent = event)}>
 		{#each people as person}
@@ -56,3 +50,8 @@
 		{/each}
 	</List>
 </div>
+
+<pre class="status">Selected: {selected.join(', ')}</pre>
+<pre class="status">Change Event Detail: {changeEvent
+		? JSON.stringify(changeEvent.detail)
+		: 'No change yet.'}</pre>

@@ -1,18 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import LinearProgress from '@smui/linear-progress';
-
-	import DateTabs from './DateTabs.svelte';
+	
 	import PersonList from './PersonList.svelte';
-	import { addDays, dateToString } from '$lib/helpers';
+	import DatePagination from './_DatePagination.svelte';
 
-	let isLoading = true;
-	
-	const today = new Date();
-	
-	let activeDate: string = dateToString(today);
-	let tabs: string[] = [...Array(5)].map((_, i) => dateToString(addDays(today, i-3)));
+	let isLoading = true;	
+	let activeDate = new Date();
 
 	onMount(() => {
 		// Simulate loading
@@ -22,7 +16,13 @@
 	});
 </script>
 
-<DateTabs {tabs} bind:active={activeDate} />
+<svelte:head>
+	<title>Attendance - Taman Sari</title>
+</svelte:head>
+
+<!-- <DateTabs {tabs} bind:active={activeDate} /> -->
+<DatePagination bind:date={activeDate} />
+
 {#if isLoading}
 	<LinearProgress indeterminate />
 {:else}
