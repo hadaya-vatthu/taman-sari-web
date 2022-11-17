@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { dateToString } from '$lib/helpers';
 	import { addDays } from '$lib/helpers';
+	import NotImplemented from '$lib/NotImplemented.svelte';
 	import { navbarTitle } from '$lib/stores';
 	import LinearProgress from '@smui/linear-progress';
 	import DateTabs from '../attendance/DateTabs.svelte';
@@ -18,13 +19,17 @@
   }, 1000)
 </script>
 
-<DateTabs {tabs} bind:active={activeDate} />
+
+<NotImplemented >
+	Still working on it...
+</NotImplemented>
+<!-- <DateTabs {tabs} bind:active={activeDate} />
 
 {#if isLoading}
 	<LinearProgress indeterminate />
 {:else}
 	<div class="table-wrapper"><ResidencyTable /></div>
-{/if}
+{/if} -->
 
 <style>
 	.table-wrapper {

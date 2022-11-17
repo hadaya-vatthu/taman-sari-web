@@ -28,7 +28,7 @@
 <TopAppBar variant="static" color="primary">
 	<Row>
 		<Section>
-			<IconButton class="material-icons">menu</IconButton>
+			<!-- <IconButton class="material-icons">menu</IconButton> -->
 			<IconButton class="material-icons" aria-label="Go to Home" href="/">home</IconButton>
 			<Title>{$navbarTitle}</Title>
 		</Section>
