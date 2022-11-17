@@ -4,9 +4,6 @@
 	import { supabaseClient } from '$lib/supabaseClient';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import type { LayoutData } from './$types';
-	
-	export let data: LayoutData;
 
 	onMount(() => {
 		const {
@@ -22,7 +19,7 @@
 </script>
 
 <div class="container">
-	<Navbar session={data.session} />
+	<Navbar />
 	<slot />
 </div>
 
