@@ -8,11 +8,10 @@
 	import DatePagination from './_DatePagination.svelte';
 	import { navbarTitle } from '$lib/stores';
 	import { supabaseClient } from '$lib/supabaseClient';
-	import NotImplemented from '$lib/NotImplemented.svelte';
 
 	let activeDate = new Date();
 	$: loading = $personSlice.status === 'loading';
-	
+
 	const fetchPeople = async () => {
 		if ($personSlice.status !== 'idle') return;
 
@@ -31,6 +30,7 @@
 	};
 
 	navbarTitle.set('Attendance Management');
+
 	onMount(() => {
 		fetchPeople();
 	});
@@ -40,15 +40,10 @@
 	<title>Attendance - Taman Sari</title>
 </svelte:head>
 
-<NotImplemented>
-	Still working on it...
-</NotImplemented>
-
-<!-- 
 <DatePagination bind:date={activeDate} />
 
 {#if loading}
 	<LinearProgress indeterminate />
 {:else}
 	<PersonList />
-{/if} -->
+{/if}
