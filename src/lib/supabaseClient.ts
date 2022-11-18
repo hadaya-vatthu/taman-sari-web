@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/auth-helpers-sveltekit';
-import { env } from '$env/dynamic/public';
+import * as env from '$env/static/public';
 
 if (!env.PUBLIC_SUPABASE_URL || !env.PUBLIC_SUPABASE_ANON_KEY) {
 	console.error({
