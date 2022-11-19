@@ -12,3 +12,7 @@ export const dateToString = (date:Date) => {
 	const [d, m] = [date.getDate(), date.getMonth()];
 	return `${d}/${m}`;
 } 
+
+export const dateToISODateString = (date: Date) => {
+	return date.toISOString().split('T')[0];
+}
