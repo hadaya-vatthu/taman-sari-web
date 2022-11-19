@@ -5,6 +5,7 @@
 	import Tooltip, { Wrapper } from '@smui/tooltip';
 
 	export let date = new Date();
+	export let disabled = false;
 
 	const today = new Date();
 	$: title = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -26,7 +27,7 @@
 <TopAppBar variant="static" color="primary" dense>
 	<Row>
 		<Section>
-			<IconButton size="mini" class="material-icons" on:click={handlePrev}
+			<IconButton size="mini" class="material-icons" {disabled} on:click={handlePrev}
 				>keyboard_arrow_left</IconButton
 			>
 			<div class="mdc-typography--subtitle1 title">{title}</div>
@@ -34,11 +35,13 @@
 		<Section align="end" toolbar>
 			{#if !isToday}
 				<Wrapper>
-					<IconButton size="mini" class="material-icons" on:click={handleToday}>today</IconButton>
+					<IconButton size="mini" class="material-icons" {disabled} on:click={handleToday}
+						>today</IconButton
+					>
 					<Tooltip xPos="start">Go to today</Tooltip>
 				</Wrapper>
 			{/if}
-			<IconButton size="mini" class="material-icons" on:click={handleNext}
+			<IconButton size="mini" class="material-icons" {disabled} on:click={handleNext}
 				>keyboard_arrow_right</IconButton
 			>
 		</Section>

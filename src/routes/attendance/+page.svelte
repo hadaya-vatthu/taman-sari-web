@@ -20,7 +20,8 @@
 			.catch(console.error);
 	}
 	$: selected = presences.map((p) => p.person_id);
-
+	$: disabled = !!dirties.length
+	
 	const fetchPresencesByDate = async (date: Date) => {
 		const _date = date.toISOString();
 		const { data, error } = await supabaseClient.from('presences').select().eq('date', _date);
@@ -107,5 +108,5 @@
 	<title>Attendance - Taman Sari</title>
 </svelte:head>
 
-<DatePagination bind:date={activeDate} />
+<DatePagination bind:date={activeDate} {disabled} />
 <PersonList {personList} {selected} {dirties} on:selectionChange={handleSelectionChange} />
