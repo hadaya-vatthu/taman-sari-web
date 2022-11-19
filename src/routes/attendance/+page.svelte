@@ -20,8 +20,8 @@
 			.catch(console.error);
 	}
 	$: selected = presences.map((p) => p.person_id);
-	$: disabled = !!dirties.length
-	
+	$: disabled = !!dirties.length;
+
 	const fetchPresencesByDate = async (date: Date) => {
 		const _date = date.toISOString();
 		const { data, error } = await supabaseClient.from('presences').select().eq('date', _date);
@@ -62,11 +62,10 @@
 				return data as PresenceRecord[];
 			};
 
-			const delayPromise = new Promise((resolve) => setTimeout(resolve, 2000));
 			const changes_person_ids = changes.map((c) => c.person_id);
 			try {
 				dirties = [...dirties, ...changes_person_ids];
-				const results = await Promise.all([insertPromise(), deletePromise(), delayPromise]);
+				const results = await Promise.all([insertPromise(), deletePromise()]);
 				presences = [...presences.filter((p) => selected.includes(p.person_id)), ...results[0]];
 			} catch (error) {
 				console.error(error);
