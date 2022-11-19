@@ -3,7 +3,7 @@
 	import { addDays } from '$lib/helpers';
 	import { navbarTitle } from '$lib/stores';
 	import LinearProgress from '@smui/linear-progress';
-	import DateTabs from '../attendance/DateTabs.svelte';
+	import DateTabs from './DateTabs.svelte';
 	import type { DailyInfoPageData } from './$types';
 	import OccupantTable from './OccupantTable.svelte';
 	import { page } from '$app/stores';
