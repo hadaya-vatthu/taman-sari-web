@@ -1,27 +1,34 @@
 <script lang="ts">
-	import { dateToString } from '$lib/helpers';
+	import { dateToISODateString } from '$lib/helpers';
 	import { addDays } from '$lib/helpers';
 	import { navbarTitle } from '$lib/stores';
 	import LinearProgress from '@smui/linear-progress';
 	import DateTabs from '../attendance/DateTabs.svelte';
 	import type { DailyInfoPageData } from './$types';
 	import OccupantTable from './OccupantTable.svelte';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let data: DailyInfoPageData;
+	
+	let activeDate: string = $page.url.searchParams.get('date') || dateToISODateString(new Date());
+	let isLoading = false;
 
-	const today = new Date();
+	$: date = new Date(activeDate);
+	$: tabs = [...Array(7)].map((_, i) => dateToISODateString(addDays(date, i - 2)));
 
-	let activeDate: string = dateToString(today);
-	let tabs: string[] = [...Array(5)].map((_, i) => dateToString(addDays(today, i - 2)));
-	let isLoading = true;
+	const handleChange = (e: CustomEvent<string>) =>  {
+		const date = e.detail;
+		const searchParams = new URLSearchParams($page.url.searchParams);
+		searchParams.set('date', date);
+		goto(`?${searchParams.toString()}`)
+	}
 
 	navbarTitle.set('Daily Information');
-	setTimeout(() => {
-		isLoading = false;
-	}, 1000);
+
 </script>
 
-<DateTabs {tabs} bind:active={activeDate} />
+<DateTabs {tabs} active={activeDate} on:change={handleChange} />
 
 {#if isLoading}
 	<LinearProgress indeterminate />
