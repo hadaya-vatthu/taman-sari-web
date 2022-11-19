@@ -12,9 +12,9 @@
 </div>
 
 <div class="container">
-	<Button href="/daily-info">Daily Information</Button>
+	<Button href="/daily-info" on:mouseover={() => prefetch('/daily-info')}>Daily Information</Button>
 	{#if $sessionSt}
-		<Button href="/attendance" on:mousevoer={() => prefetch('/attendance')}
+		<Button href="/attendance" on:mouseover={() => prefetch('/attendance')}
 			>Attendance Management</Button
 		>
 	{/if}
