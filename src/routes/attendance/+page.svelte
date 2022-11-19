@@ -1,38 +1,105 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import LinearProgress from '@smui/linear-progress';
-
-	import { personSlice } from '$lib/stores';
-
-	import PersonList from './PersonList.svelte';
+	import PersonList from './_PersonList.svelte';
 	import DatePagination from './_DatePagination.svelte';
 	import { navbarTitle } from '$lib/stores';
+	import type { AttendancePageData } from './+page';
+	import { onMount } from 'svelte';
 	import { supabaseClient } from '$lib/supabaseClient';
-	import NotImplemented from '$lib/NotImplemented.svelte';
+	import type { PresenceRecord } from 'src/models/presence.model';
+
+	export let data: AttendancePageData;
 
 	let activeDate = new Date();
-	$: loading = $personSlice.status === 'loading';
-	
-	const fetchPeople = async () => {
-		if ($personSlice.status !== 'idle') return;
+	let presences: PresenceRecord[] = [];
+	let dirties: number[] = [];
 
-		try {
-			personSlice.update((s) => ({ ...s, status: 'loading' }));
-			const { data, error } = await supabaseClient
-				.from('people')
-				.select('id, birth_name, samana_type')
-				.order('id');
-			if (error) throw error;
-			personSlice.update((s) => ({ ...s, status: 'completed', data: data ?? [] }));
-		} catch (error) {
-			console.error(error);
-			personSlice.update((s) => ({ ...s, error: error, status: 'error' }));
+	$: personList = data.people;
+	$: {
+		fetchPresencesByDate(activeDate)
+			.then((data) => (presences = data))
+			.catch(console.error);
+	}
+	$: selected = presences.map((p) => p.person_id);
+	$: disabled = !!dirties.length;
+
+	const fetchPresencesByDate = async (date: Date) => {
+		const _date = date.toISOString();
+		const { data, error } = await supabaseClient.from('presences').select().eq('date', _date);
+		if (error) throw error;
+		return data;
+	};
+
+	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
+	const handleSelectionChange = async (event: SelectionChangeEvent) => {
+		const changes = event?.detail;
+		const _date = activeDate.toISOString();
+
+		if (changes) {
+			const deleteTargets = changes.filter((c) => !c.checked).map((t) => t.person_id);
+			const insertTargets = changes
+				.filter((c) => c.checked)
+				.map((c) => ({ person_id: c.person_id, date: _date }));
+
+			const insertPromise = async () => {
+				if (!insertTargets.length) return [];
+				const { data, error } = await supabaseClient
+					.from('presences')
+					.insert(insertTargets)
+					.select();
+				if (error) throw error;
+				return data as PresenceRecord[];
+			};
+
+			const deletePromise = async () => {
+				if (!deleteTargets.length) return [];
+				const { data, error } = await supabaseClient
+					.from('presences')
+					.delete()
+					.eq('date', _date)
+					.eq('person_id', deleteTargets)
+					.select();
+				if (error) throw error;
+				return data as PresenceRecord[];
+			};
+
+			const changes_person_ids = changes.map((c) => c.person_id);
+			try {
+				dirties = [...dirties, ...changes_person_ids];
+				const results = await Promise.all([insertPromise(), deletePromise()]);
+				presences = [...presences.filter((p) => selected.includes(p.person_id)), ...results[0]];
+			} catch (error) {
+				console.error(error);
+				if (error instanceof Error) {
+					alert(error.message);
+				}
+			} finally {
+				dirties = dirties.filter((d) => !changes_person_ids.includes(d));
+			}
 		}
 	};
 
 	navbarTitle.set('Attendance Management');
-	onMount(() => {
-		fetchPeople();
+
+	onMount(async () => {
+		// const presenceSubs = supabaseClient
+		// 	.channel('custom-all-channel')
+		// 	.on('postgres_changes', { event: '*', schema: 'public', table: 'presences' }, (payload) => {
+		// 		console.log('Change received!', payload);
+		// 	})
+		// 	.subscribe();
+
+		try {
+			presences = await fetchPresencesByDate(activeDate);
+		} catch (error) {
+			console.error(error);
+			if (error instanceof Error) {
+				alert(error.message);
+			}
+		}
+
+		return () => {
+			// presenceSubs.unsubscribe();
+		};
 	});
 </script>
 
@@ -40,15 +107,5 @@
 	<title>Attendance - Taman Sari</title>
 </svelte:head>
 
-<NotImplemented>
-	Still working on it...
-</NotImplemented>
-
-<!-- 
-<DatePagination bind:date={activeDate} />
-
-{#if loading}
-	<LinearProgress indeterminate />
-{:else}
-	<PersonList />
-{/if} -->
+<DatePagination bind:date={activeDate} {disabled} />
+<PersonList {personList} {selected} {dirties} on:selectionChange={handleSelectionChange} />
