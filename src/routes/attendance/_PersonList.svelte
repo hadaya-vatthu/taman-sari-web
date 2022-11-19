@@ -36,6 +36,7 @@
 						bind:group={selected}
 						value={person.id}
 						indeterminate={dirties.includes(person.id)}
+						disabled
 					/>
 				</Meta>
 			</Item>
