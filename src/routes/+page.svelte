@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { prefetch } from '$app/navigation';
 	import { navbarTitle } from '$lib/stores';
-	import { sessionSt } from '$lib/stores'
+	import { sessionSt } from '$lib/stores';
 	import Button from '@smui/button';
 
 	navbarTitle.set('Taman Sari');
@@ -12,8 +13,10 @@
 
 <div class="container">
 	<Button href="/daily-information">Daily Information</Button>
-	{#if $sessionSt} 
-	<Button href="/attendance">Attendance Management</Button>
+	{#if $sessionSt}
+		<Button href="/attendance" on:mousevoer={() => prefetch('/attendance')}
+			>Attendance Management</Button
+		>
 	{/if}
 </div>
 
