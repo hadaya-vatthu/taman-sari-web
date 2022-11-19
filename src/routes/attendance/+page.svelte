@@ -22,7 +22,7 @@
 	$: selected = presences.map((p) => p.person_id);
 
 	const fetchPresencesByDate = async (date: Date) => {
-		const _date = date.toLocaleDateString();
+		const _date = date.toISOString();
 		const { data, error } = await supabaseClient.from('presences').select().eq('date', _date);
 		if (error) throw error;
 		return data;
@@ -31,7 +31,8 @@
 	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
 	const handleSelectionChange = async (event: SelectionChangeEvent) => {
 		const changes = event?.detail;
-		const _date = activeDate.toLocaleDateString();
+		const _date = activeDate.toISOString();
+
 		if (changes) {
 			const deleteTargets = changes.filter((c) => !c.checked).map((t) => t.person_id);
 			const insertTargets = changes
@@ -61,7 +62,7 @@
 			};
 
 			const delayPromise = new Promise((resolve) => setTimeout(resolve, 2000));
-			const changes_person_ids = changes.map((c) => c.person_id)
+			const changes_person_ids = changes.map((c) => c.person_id);
 			try {
 				dirties = [...dirties, ...changes_person_ids];
 				const results = await Promise.all([insertPromise(), deletePromise(), delayPromise]);
