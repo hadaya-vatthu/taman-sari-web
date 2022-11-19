@@ -6,27 +6,35 @@
 	import { onMount } from 'svelte';
 	import { supabaseClient } from '$lib/supabaseClient';
 	import type { PresenceRecord } from 'src/models/presence.model';
+	import LinearProgress from '@smui/linear-progress';
 
 	export let data: AttendancePageData;
 
 	let activeDate = new Date();
 	let presences: PresenceRecord[] = [];
 	let dirties: number[] = [];
-
+	let loading = false;
 	$: personList = data.people;
 	$: {
-		fetchPresencesByDate(activeDate)
-			.then((data) => (presences = data))
-			.catch(console.error);
+		fetchPresencesByDate(activeDate).then((data) => (presences = data));
 	}
 	$: selected = presences.map((p) => p.person_id);
 	$: disabled = !!dirties.length;
 
 	const fetchPresencesByDate = async (date: Date) => {
-		const _date = date.toISOString();
-		const { data, error } = await supabaseClient.from('presences').select().eq('date', _date);
-		if (error) throw error;
-		return data;
+		try {
+			loading = true;
+			const _date = date.toISOString();
+			const { data, error } = await supabaseClient.from('presences').select().eq('date', _date);
+			if (error) throw error;
+			return data as PresenceRecord[];
+		} catch (error) {
+			console.error(error);
+			if (error instanceof Error) alert(error.message);
+			return [];
+		} finally {
+			loading = false;
+		}
 	};
 
 	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
@@ -108,4 +116,7 @@
 </svelte:head>
 
 <DatePagination bind:date={activeDate} {disabled} />
+{#if loading}
+	<LinearProgress indeterminate />
+{/if}
 <PersonList {personList} {selected} {dirties} on:selectionChange={handleSelectionChange} />
