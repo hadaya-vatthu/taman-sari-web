@@ -1,35 +1,35 @@
 <script lang="ts">
 	import { dateToString } from '$lib/helpers';
 	import { addDays } from '$lib/helpers';
-	import NotImplemented from '$lib/NotImplemented.svelte';
 	import { navbarTitle } from '$lib/stores';
 	import LinearProgress from '@smui/linear-progress';
 	import DateTabs from '../attendance/DateTabs.svelte';
-	import ResidencyTable from './ResidencyTable.svelte';
+	import type { DailyInfoPageData } from './$types';
+	import OccupantTable from './OccupantTable.svelte';
+
+	export let data: DailyInfoPageData;
 
 	const today = new Date();
 
 	let activeDate: string = dateToString(today);
 	let tabs: string[] = [...Array(5)].map((_, i) => dateToString(addDays(today, i - 2)));
-  let isLoading = true;
+	let isLoading = true;
 
-	navbarTitle.set('Daily Information')
-  setTimeout(() => {
-    isLoading = false
-  }, 1000)
+	navbarTitle.set('Daily Information');
+	setTimeout(() => {
+		isLoading = false;
+	}, 1000);
 </script>
 
-
-<NotImplemented >
-	Still working on it...
-</NotImplemented>
-<!-- <DateTabs {tabs} bind:active={activeDate} />
+<DateTabs {tabs} bind:active={activeDate} />
 
 {#if isLoading}
 	<LinearProgress indeterminate />
 {:else}
-	<div class="table-wrapper"><ResidencyTable /></div>
-{/if} -->
+	<div class="table-wrapper">
+		<OccupantTable data={data.occupants} />
+	</div>
+{/if}
 
 <style>
 	.table-wrapper {
