@@ -8,9 +8,10 @@ export type PersonId = number & { readonly [_personId]: never };
 
 export type Person = {
 	birth_name: string;
-	samana_type: 'Bhikkhu' | 'Samanera' | 'Sayalay' | null;
 	citizenship?: number;
 } 
+
+// samana_type: 'Bhikkhu' | 'Samanera' | 'Sayalay' | null;
 
 export type PersonRecord = Person & {id: PersonId};
 
