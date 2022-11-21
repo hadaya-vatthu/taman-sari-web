@@ -8,6 +8,7 @@
 	import type { PresenceRecord } from 'src/models/presence.model';
 	import LinearProgress from '@smui/linear-progress';
 	import { dateToISODateString } from '$lib/helpers';
+	import AddPersonFab from './_AddPersonFAB.svelte';
 
 	export let data: AttendancePageData;
 
@@ -121,3 +122,4 @@
 	<LinearProgress indeterminate />
 {/if}
 <PersonList {personList} {selected} {dirties} on:selectionChange={handleSelectionChange} />
+<AddPersonFab autoHide />
