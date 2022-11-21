@@ -30,7 +30,7 @@
 	>
 		{#each personList as person (person.id)}
 			<Item disabled={dirties.includes(person.id)}>
-				<Label>{person.birth_name}</Label>
+				<Label>{person.name}</Label>
 				<Meta>
 					<Checkbox
 						bind:group={selected}

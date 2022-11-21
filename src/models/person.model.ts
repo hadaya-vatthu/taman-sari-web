@@ -7,7 +7,7 @@ export type PersonId = number & { readonly [_personId]: never };
 
 
 export type Person = {
-	birth_name: string;
+	name: string;
 	citizenship?: number;
 } 
 
