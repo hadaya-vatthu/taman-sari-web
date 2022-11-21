@@ -5,7 +5,7 @@ import type { PersonRecord } from 'src/models/person.model';
 const fetchPeople = async () => {
 	const { data, error } = await supabaseClient
 		.from('people')
-		.select('id, birth_name, samana_type')
+		.select('id, birth_name')
 		.order('id');
 	if (error) throw error;
 	return data;
