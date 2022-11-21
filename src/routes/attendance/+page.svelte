@@ -7,6 +7,7 @@
 	import { supabaseClient } from '$lib/supabaseClient';
 	import type { PresenceRecord } from 'src/models/presence.model';
 	import LinearProgress from '@smui/linear-progress';
+	import { dateToISODateString } from '$lib/helpers';
 
 	export let data: AttendancePageData;
 
@@ -24,7 +25,7 @@
 	const fetchPresencesByDate = async (date: Date) => {
 		try {
 			loading = true;
-			const _date = date.toISOString();
+			const _date = dateToISODateString(date);
 			const { data, error } = await supabaseClient.from('presences').select().eq('date', _date);
 			if (error) throw error;
 			return data as PresenceRecord[];
@@ -40,7 +41,7 @@
 	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
 	const handleSelectionChange = async (event: SelectionChangeEvent) => {
 		const changes = event?.detail;
-		const _date = activeDate.toISOString();
+		const _date = dateToISODateString(activeDate);
 
 		if (changes) {
 			const deleteTargets = changes.filter((c) => !c.checked).map((t) => t.person_id);
