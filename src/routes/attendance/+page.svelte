@@ -8,6 +8,8 @@
 	import type { PresenceRecord } from 'src/models/presence.model';
 	import LinearProgress from '@smui/linear-progress';
 	import { dateToISODateString } from '$lib/helpers';
+	import AddPersonFab from './_AddPersonFAB.svelte';
+	import AddPersonDialog from './_AddPersonDialog.svelte';
 
 	export let data: AttendancePageData;
 
@@ -15,10 +17,11 @@
 	let presences: PresenceRecord[] = [];
 	let dirties: number[] = [];
 	let loading = false;
+	let open = false;
+	let isMounted = false;
+
 	$: personList = data.people;
-	$: {
-		fetchPresencesByDate(activeDate).then((data) => (presences = data));
-	}
+	$: fetchPresencesByDate(activeDate).then((data) => (presences = data));
 	$: selected = presences.map((p) => p.person_id);
 	$: disabled = !!dirties.length;
 
@@ -96,7 +99,7 @@
 		// 		console.log('Change received!', payload);
 		// 	})
 		// 	.subscribe();
-
+		isMounted = true;
 		try {
 			presences = await fetchPresencesByDate(activeDate);
 		} catch (error) {
@@ -107,6 +110,7 @@
 		}
 
 		return () => {
+			isMounted = false;
 			// presenceSubs.unsubscribe();
 		};
 	});
@@ -121,3 +125,8 @@
 	<LinearProgress indeterminate />
 {/if}
 <PersonList {personList} {selected} {dirties} on:selectionChange={handleSelectionChange} />
+
+{#if isMounted}
+	<AddPersonFab autoHide on:click={() => (open = !open)} />
+	<AddPersonDialog bind:open />
+{/if}
