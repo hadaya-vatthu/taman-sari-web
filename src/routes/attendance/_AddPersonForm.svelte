@@ -46,6 +46,7 @@
 	input$name="birth_name"
 	label="Name"
 	use={[InitialFocus]}
+	required
 	bind:value={fields.birth_name}
 />
 <RadioField>
