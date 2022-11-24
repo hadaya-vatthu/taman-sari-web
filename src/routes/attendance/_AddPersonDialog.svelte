@@ -9,7 +9,7 @@
 	let formValues: FormValues = {
 		birth_name: '',
 		sex: 'm',
-		citizenship: 110,
+		citizenship: {id:110, name:'Indonesia'},
 		birth_year: null,
 		domicile: null
 	};
@@ -24,13 +24,13 @@
 		<!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
 		<Title id="add-dialog">Add Person</Title>
 		<Content id="add-dialog-content">
-			<AddPersonForm bind:values={formValues} />
+			<AddPersonForm bind:fields={formValues} />
 		</Content>
 		<Actions style="flex-direction: row-reverse; justify-content: flex-start">
 			<Button defaultAction type="submit">
 				<Label>Add</Label>
 			</Button>
-			<Button>
+			<Button type="button">
 				<Label>Cancel</Label>
 			</Button>
 		</Actions>
