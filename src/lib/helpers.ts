@@ -25,7 +25,7 @@ export const dateToString = (date: Date) => {
  * @param offset offset hour relative to GMT (optional)
  * @returns ISO string of offseted date.
  */
- const dateToTzISOString = (date: Date, offset: number | null = null) => {
+const dateToTzISOString = (date: Date, offset: number | null = null) => {
 	if (offset === null) {
 		offset = -date.getTimezoneOffset() / 60; // in -minutes
 	}
@@ -52,3 +52,5 @@ export const dateToISODateString = (date: Date | string) => {
 	}
 	return _ISOString.split('T')[0];
 };
+
+export const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
