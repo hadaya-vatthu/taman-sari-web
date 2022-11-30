@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	import Textfield from '@smui/textfield';
 	import Autocomplete from '@smui-extra/autocomplete';
 	import { InitialFocus } from '@smui/dialog';

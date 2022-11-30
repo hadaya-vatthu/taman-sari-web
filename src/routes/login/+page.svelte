@@ -8,10 +8,10 @@
 	let email = '';
 	let loading = false;
 
-	const handleSubmit = async (e: any) => {
+	const handleSubmit = async () => {
 		try {
 			loading = true;
-			const { data, error } = await supabaseClient.auth.signInWithOtp({ email });
+			const { error } = await supabaseClient.auth.signInWithOtp({ email });
 			if (error) throw error;
 			alert('Check your email for the login link!');
 		} catch (error) {

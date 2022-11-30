@@ -2,7 +2,6 @@
 	import Tab, { Label } from '@smui/tab/src';
 	import TabBar from '@smui/tab-bar/src';
 	import { createEventDispatcher, onMount } from 'svelte';
-	import { dateToString } from '$lib/helpers';
 	import { prefetch } from '$app/navigation';
 
 	export let tabs: string[] = [];

@@ -1,15 +1,12 @@
 <script lang="ts">
 	import Fab, { Icon } from '@smui/fab';
-	import { onMount } from 'svelte';
 
 	export let hide = false;
 	export let autoHide = false;
 	export let hideY = 100;
 
-
 	let y: number;
 	$: hide = autoHide && y > hideY;
-
 </script>
 
 <svelte:window bind:scrollY={y} />
