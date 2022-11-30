@@ -34,7 +34,7 @@
 		</Section>
 		<Section align="end" toolbar>
 			{#if !$sessionSt}
-				<Button href="/login">Login</Button>
+				<Button href="/login">Admin-Login</Button>
 			{:else if loading}
 				<CircularProgress style="height: 32px; width: 32px;" indeterminate fourColor/>
 			{:else}
