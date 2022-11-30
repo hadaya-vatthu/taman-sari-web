@@ -9,4 +9,5 @@ export type DailyOccupantViewRecord = {
 
 export type DailyInfoPageData = {
 	occupants: DailyOccupantViewRecord[];
+	lastUpdate: string | null;
 };
