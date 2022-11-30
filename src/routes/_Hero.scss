@@ -1,0 +1,13 @@
+@use '@material/typography/index' as typography;
+
+.mdc-typography--body1 {
+	@include typography.typography('body1');
+}
+
+.mdc-typography--headline2 {
+	@include typography.typography('headline2');
+}
+
+.mdc-typography--headline6 {
+	@include typography.typography('headline6');
+}

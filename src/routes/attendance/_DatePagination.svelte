@@ -1,36 +1,59 @@
 <script lang="ts">
-	import { addDays } from '$lib/helpers';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+
+	import { addDays, dateToISODateString } from '$lib/helpers';
 	import IconButton from '@smui/icon-button';
 	import TopAppBar, { Row, Section } from '@smui/top-app-bar';
+	import Tooltip, { Wrapper } from '@smui/tooltip';
 
 	export let date = new Date();
+	export let disabled = false;
 
+	const today = new Date();
 	$: title = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+	$: isToday = date.toLocaleDateString() === today.toLocaleDateString();
+
+	const gotoDate = (date: Date) => {
+		const searchParams = new URLSearchParams($page.url.searchParams);
+		searchParams.set('date', dateToISODateString(date));
+		goto(`?${searchParams.toString()}`);
+	};
 
 	const handlePrev = () => {
-		date = addDays(date, -1);
+		const prevDay = addDays(date, -1);
+		gotoDate(prevDay);
 	};
 
 	const handleNext = () => {
-		date = addDays(date, 1);
+		const nextDay = addDays(date, 1);
+		gotoDate(nextDay);
 	};
 
 	const handleToday = () => {
-		date = new Date();
+		const today = new Date();
+		gotoDate(today);
 	};
 </script>
 
 <TopAppBar variant="static" color="primary" dense>
 	<Row>
 		<Section>
-			<IconButton size="mini" class="material-icons" on:click={handlePrev}
+			<IconButton size="mini" class="material-icons" {disabled} on:click={handlePrev}
 				>keyboard_arrow_left</IconButton
 			>
 			<div class="mdc-typography--subtitle1 title">{title}</div>
 		</Section>
 		<Section align="end" toolbar>
-			<IconButton size="mini" class="material-icons" on:click={handleToday}>today</IconButton>
-			<IconButton size="mini" class="material-icons" on:click={handleNext}
+			{#if !isToday}
+				<Wrapper>
+					<IconButton size="mini" class="material-icons" {disabled} on:click={handleToday}
+						>today</IconButton
+					>
+					<Tooltip xPos="start">Go to today</Tooltip>
+				</Wrapper>
+			{/if}
+			<IconButton size="mini" class="material-icons" {disabled} on:click={handleNext}
 				>keyboard_arrow_right</IconButton
 			>
 		</Section>

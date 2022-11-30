@@ -1,0 +1,11 @@
+{
+	"title": "Informasi Harian",
+	"occupant-table": {
+		"col1": "Penghuni",
+		"col2": "Lokal",
+		"col3": "Asing",
+		"layman": "Umat Pria",
+		"laywoman": "Umat Wanita"
+	},
+	"last-update": "Terakhir diperbaharui"
+}

@@ -1,0 +1,11 @@
+{
+	"title": "Daily Information",
+	"occupant-table": {
+		"col1": "Occupant",
+		"col2": "Local",
+		"col3": "Foreigner",
+		"layman": "Layman",
+		"laywoman": "Laywoman"
+	},
+	"last-update": "Last update"
+}

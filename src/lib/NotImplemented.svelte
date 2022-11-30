@@ -21,10 +21,10 @@
 	#error-message {
 		font-size: 1.2em;
 		font-weight: bold;
-		margin-bottom: .4em;
+		margin-bottom: 0.4em;
 	}
-  pre {
-    font-family: 'Courier New', Courier, monospace;
+	pre {
+		font-family: 'Courier New', Courier, monospace;
 		font-size: 1em;
-  }
+	}
 </style>

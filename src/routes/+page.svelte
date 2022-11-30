@@ -1,30 +1,30 @@
 <script lang="ts">
+	import { prefetch } from '$app/navigation';
 	import { navbarTitle } from '$lib/stores';
-	import { sessionSt } from '$lib/stores'
+	import { sessionSt } from '$lib/stores';
+	import { t } from '$lib/translations';
 	import Button from '@smui/button';
+	import Hero from './_Hero.svelte';
 
-	navbarTitle.set('Taman Sari');
+	navbarTitle.set('PATVDH - Taman Sari');
 </script>
 
-<div id="hero">
-	<h1>Welcome to Taman Sari</h1>
-</div>
+<Hero />
 
 <div class="container">
-	<Button href="/daily-information">Daily Information</Button>
-	{#if $sessionSt} 
-	<Button href="/attendance">Attendance Management</Button>
+	<Button variant="outlined" href="/daily-info" on:mouseover={() => prefetch('/daily-info')}
+		>{$t('home.daily-info-btn-label')}</Button
+	>
+	{#if $sessionSt}
+		<Button variant="outlined" href="/attendance" on:mouseover={() => prefetch('/attendance')}
+			>{$t('home.attendance-btn-label')}</Button
+		>
 	{/if}
 </div>
 
 <style>
-	#hero {
-		padding: 16px;
-	}
 	.container {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
-		padding: 16px;
 	}
 </style>
