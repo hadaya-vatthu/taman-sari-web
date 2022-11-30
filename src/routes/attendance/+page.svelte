@@ -1,13 +1,17 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	
+	import LinearProgress from '@smui/linear-progress';
+	
+	import { navbarTitle } from '$lib/stores';
+	import { dateToISODateString } from '$lib/helpers';
+	import { supabaseClient } from '$lib/supabaseClient';
+	
+	import type { PresenceRecord } from 'src/models/presence.model';
+	
+	import type { AttendancePageData } from './+page';
 	import PersonList from './_PersonList.svelte';
 	import DatePagination from './_DatePagination.svelte';
-	import { navbarTitle } from '$lib/stores';
-	import type { AttendancePageData } from './+page';
-	import { onMount } from 'svelte';
-	import { supabaseClient } from '$lib/supabaseClient';
-	import type { PresenceRecord } from 'src/models/presence.model';
-	import LinearProgress from '@smui/linear-progress';
-	import { dateToISODateString } from '$lib/helpers';
 	import AddPersonFab from './_AddPersonFAB.svelte';
 	import AddPersonDialog from './_AddPersonDialog.svelte';
 
@@ -20,7 +24,7 @@
 	let open = false;
 	let isMounted = false;
 
-	$: personList = data.people;
+	$: nameRecords = data.names;
 	$: fetchPresencesByDate(activeDate).then((data) => (presences = data));
 	$: selected = presences.map((p) => p.person_id);
 	$: disabled = !!dirties.length;
@@ -124,7 +128,7 @@
 {#if loading}
 	<LinearProgress indeterminate />
 {/if}
-<PersonList {personList} {selected} {dirties} on:selectionChange={handleSelectionChange} />
+<PersonList {nameRecords} {selected} {dirties} on:selectionChange={handleSelectionChange} />
 
 {#if isMounted}
 	<AddPersonFab autoHide on:click={() => (open = !open)} />
