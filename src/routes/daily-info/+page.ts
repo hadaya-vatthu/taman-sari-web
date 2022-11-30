@@ -19,7 +19,7 @@ const fetchLastUpdate = async (dateString: string) => {
 		.eq('date', dateString)
 		.single();
 	if (error) {
-		if (error.code === 'PGRST116') return null
+		if (error.code === 'PGRST116') return null;
 		throw error;
 	}
 	if (!data) return null;

@@ -1,54 +1,68 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	
+
 	import LinearProgress from '@smui/linear-progress';
-	
+
 	import { navbarTitle } from '$lib/stores';
 	import { dateToISODateString } from '$lib/helpers';
 	import { supabaseClient } from '$lib/supabaseClient';
-	
+
 	import type { PresenceRecord } from 'src/models/presence.model';
-	
+
 	import type { AttendancePageData } from './+page';
 	import PersonList from './_PersonList.svelte';
 	import DatePagination from './_DatePagination.svelte';
 	import AddPersonFab from './_AddPersonFAB.svelte';
 	import AddPersonDialog from './_AddPersonDialog.svelte';
 
+	const windowSize = 5;
+
 	export let data: AttendancePageData;
 
-	let activeDate = new Date();
-	let presences: PresenceRecord[] = [];
+	// let activeDate = new Date();
+	// let presences: PresenceRecord[] = [];
 	let dirties: number[] = [];
 	let loading = false;
 	let open = false;
 	let isMounted = false;
 
-	$: nameRecords = data.names;
-	$: fetchPresencesByDate(activeDate).then((data) => (presences = data));
-	$: selected = presences.map((p) => p.person_id);
 	$: disabled = !!dirties.length;
 
-	const fetchPresencesByDate = async (date: Date) => {
-		try {
-			loading = true;
-			const _date = dateToISODateString(date);
-			const { data, error } = await supabaseClient.from('presences').select().eq('date', _date);
-			if (error) throw error;
-			return data as PresenceRecord[];
-		} catch (error) {
-			console.error(error);
-			if (error instanceof Error) alert(error.message);
-			return [];
-		} finally {
-			loading = false;
-		}
-	};
+	// $: dateWindow = [...Array(windowSize)].map((_, i) =>
+	// 	dateToISODateString(addDays(activeDate, i - windowSize))
+	// );
+	// // $: fetchPresencesByDate(dateWindow).then((data) => (presences = data));
+
+	$: _activeDate = data.dateWindow[windowSize];
+	$: todaysPresences = data.presences.filter((p) => p.date === _activeDate);
+	$: selected = todaysPresences.map((p) => p.person_id);
+
+	$: personListItems = data.names.map((p) => ({ ...p, dots: data.peopleDots[p.id] }));
+	// $: nameRecords = data.names;
+
+	// const fetchPresencesByDate = async (window: string[]) => {
+	// 	try {
+	// 		loading = true;
+	// 		// const now = dateToISODateString(date);
+	// 		// const prev = dateToISODateString(addDays(date, -5));
+	// 		const { data, error } = await supabaseClient.from('presences').select().in('date', window);
+	// 		// .gt('date', prev)
+	// 		// .lte('date', now);
+	// 		if (error) throw error;
+	// 		return data as PresenceRecord[];
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 		if (error instanceof Error) alert(error.message);
+	// 		return [];
+	// 	} finally {
+	// 		loading = false;
+	// 	}
+	// };
 
 	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
 	const handleSelectionChange = async (event: SelectionChangeEvent) => {
 		const changes = event?.detail;
-		const _date = dateToISODateString(activeDate);
+		const _date = dateToISODateString(data.activeDate);
 
 		if (changes) {
 			const deleteTargets = changes.filter((c) => !c.checked).map((t) => t.person_id);
@@ -81,8 +95,14 @@
 			const changes_person_ids = changes.map((c) => c.person_id);
 			try {
 				dirties = [...dirties, ...changes_person_ids];
-				const results = await Promise.all([insertPromise(), deletePromise()]);
-				presences = [...presences.filter((p) => selected.includes(p.person_id)), ...results[0]];
+				// const results =
+				await Promise.all([insertPromise(), deletePromise()]);
+
+				// const newPresences = [
+				// 	...data.presences.filter((p) => p.date !== _activeDate),
+				// 	...todaysPresences.filter((p) => selected.includes(p.person_id)),
+				// 	...results[0]
+				// ];
 			} catch (error) {
 				console.error(error);
 				if (error instanceof Error) {
@@ -104,14 +124,15 @@
 		// 	})
 		// 	.subscribe();
 		isMounted = true;
-		try {
-			presences = await fetchPresencesByDate(activeDate);
-		} catch (error) {
-			console.error(error);
-			if (error instanceof Error) {
-				alert(error.message);
-			}
-		}
+		// try {
+		// presences = await fetchPresencesByDate(activeDate);
+		// presences = await fetchPresencesByDate(dateWindow);
+		// } catch (error) {
+		// 	console.error(error);
+		// 	if (error instanceof Error) {
+		// 		alert(error.message);
+		// 	}
+		// }
 
 		return () => {
 			isMounted = false;
@@ -124,11 +145,16 @@
 	<title>Attendance - Taman Sari</title>
 </svelte:head>
 
-<DatePagination bind:date={activeDate} {disabled} />
+<DatePagination date={data.activeDate} {disabled} />
 {#if loading}
 	<LinearProgress indeterminate />
 {/if}
-<PersonList {nameRecords} {selected} {dirties} on:selectionChange={handleSelectionChange} />
+<PersonList
+	items={personListItems}
+	{selected}
+	{dirties}
+	on:selectionChange={handleSelectionChange}
+/>
 
 {#if isMounted}
 	<AddPersonFab autoHide on:click={() => (open = !open)} />

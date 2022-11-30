@@ -54,3 +54,15 @@ export const dateToISODateString = (date: Date | string) => {
 };
 
 export const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+export const getDateParam = (url: URL) => {
+	let _date = url.searchParams.get('date');
+	if (_date) return _date;
+
+	const today = dateToISODateString(new Date());
+
+	// Modify date param to today (invisibly)
+	url.searchParams.set('date', today);
+
+	return today;
+};

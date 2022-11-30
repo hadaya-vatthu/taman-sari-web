@@ -18,8 +18,11 @@
 
 {#if isMounted}
 	<TabBar {tabs} let:tab {active}>
-		<Tab {tab} on:click={() => dispatch('change', tab)}
-			on:mouseover={() => prefetch('/daily-info?date='+tab)}>
+		<Tab
+			{tab}
+			on:click={() => dispatch('change', tab)}
+			on:mouseover={() => prefetch('/daily-info?date=' + tab)}
+		>
 			<Label
 				>{tab
 					.split('-')

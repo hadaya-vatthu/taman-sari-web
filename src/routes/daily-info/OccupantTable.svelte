@@ -26,8 +26,12 @@
 		Bhikkhu: data.filter((r) => r.samana_type === 'Bhikkhu').reduce(rowReducer, rowInitial),
 		Samanera: data.filter((r) => r.samana_type === 'Samanera').reduce(rowReducer, rowInitial),
 		Sayalay: data.filter((r) => r.samana_type === 'Sayalay').reduce(rowReducer, rowInitial),
-		[$t('daily-info.occupant-table.layman')]: data.filter((r) => !r.samana_type && r.sex === 'm').reduce(rowReducer, rowInitial),
-		[$t('daily-info.occupant-table.laywoman')]: data.filter((r) => !r.samana_type && r.sex === 'f').reduce(rowReducer, rowInitial)
+		[$t('daily-info.occupant-table.layman')]: data
+			.filter((r) => !r.samana_type && r.sex === 'm')
+			.reduce(rowReducer, rowInitial),
+		[$t('daily-info.occupant-table.laywoman')]: data
+			.filter((r) => !r.samana_type && r.sex === 'f')
+			.reduce(rowReducer, rowInitial)
 	};
 	$: totalData = data.reduce(rowReducer, rowInitial);
 </script>

@@ -11,7 +11,7 @@
 
 <div class="radio-item">
 	<FormField>
-		<Radio bind:value bind:group {input$name} {selected}/>
+		<Radio bind:value bind:group {input$name} {selected} />
 		<span slot="label">
 			{label}
 		</span>
