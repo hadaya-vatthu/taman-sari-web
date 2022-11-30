@@ -4,7 +4,7 @@
 	import LinearProgress from '@smui/linear-progress';
 
 	import { navbarTitle } from '$lib/stores';
-	import { addDays, dateToISODateString } from '$lib/helpers';
+	import { dateToISODateString } from '$lib/helpers';
 	import { supabaseClient } from '$lib/supabaseClient';
 
 	import type { PresenceRecord } from 'src/models/presence.model';
@@ -37,9 +37,8 @@
 	$: todaysPresences = data.presences.filter((p) => p.date === _activeDate);
 	$: selected = todaysPresences.map((p) => p.person_id);
 
-	$: personListItems = data.names.map(p => ({...p, dots: data.peopleDots[p.id]}))
+	$: personListItems = data.names.map((p) => ({ ...p, dots: data.peopleDots[p.id] }));
 	// $: nameRecords = data.names;
-
 
 	// const fetchPresencesByDate = async (window: string[]) => {
 	// 	try {
@@ -96,9 +95,9 @@
 			const changes_person_ids = changes.map((c) => c.person_id);
 			try {
 				dirties = [...dirties, ...changes_person_ids];
-				// const results = 
+				// const results =
 				await Promise.all([insertPromise(), deletePromise()]);
-				
+
 				// const newPresences = [
 				// 	...data.presences.filter((p) => p.date !== _activeDate),
 				// 	...todaysPresences.filter((p) => selected.includes(p.person_id)),

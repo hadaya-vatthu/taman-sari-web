@@ -2,7 +2,6 @@
 	import List, { Item, Meta, Label } from '@smui/list';
 	import Checkbox from '@smui/checkbox';
 
-	import type { NameRecord } from 'src/models/person.model';
 	import { createEventDispatcher } from 'svelte';
 	import Dots from './_Dots.svelte';
 	import type { PersonListItems } from './types';
@@ -32,9 +31,11 @@
 	>
 		{#each items as item (item.id)}
 			<Item disabled={dirties.includes(item.id)}>
-				<Label><div>
-					{item.name}<Dots dots={item.dots} />
-				</div></Label>
+				<Label
+					><div>
+						{item.name}<Dots dots={item.dots} />
+					</div></Label
+				>
 				<Meta>
 					<Checkbox
 						bind:group={selected}
