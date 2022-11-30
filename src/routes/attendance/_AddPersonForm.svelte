@@ -51,7 +51,7 @@
 />
 <RadioField>
 	{#each ['male', 'female'] as sex}
-		<RadioItem label={sex} input$name="sex" value={sex[0]} group={fields.sex} />
+		<RadioItem label={sex} input$name="sex" value={sex[0]} bind:group={fields.sex} />
 	{/each}
 </RadioField>
 <Autocomplete
