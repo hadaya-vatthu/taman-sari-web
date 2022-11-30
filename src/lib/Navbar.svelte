@@ -42,7 +42,10 @@
 			{:else if loading}
 				<CircularProgress style="height: 32px; width: 32px;" indeterminate fourColor />
 			{:else}
-				<Button on:click={signOut}>Logout</Button>
+			<Wrapper>
+					<IconButton class="material-icons" aria-label="Logout" on:click={signOut}>logout</IconButton>
+					<Tooltip xPos="start">Logout</Tooltip>
+				</Wrapper>
 			{/if}
 		</Section>
 	</Row>
