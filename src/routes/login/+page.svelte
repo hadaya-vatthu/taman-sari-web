@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { navbarTitle } from '$lib/stores';
 	import { supabaseClient } from '$lib/supabaseClient';
 	import Button from '@smui/button';
 	import TextField from '@smui/textfield';
@@ -20,8 +21,9 @@
 			loading = false;
 		}
 	};
-</script>
 
+	navbarTitle.set('Admin Login');
+</script>
 
 <svelte:head>
 	<title>Login - Taman Sari</title>
@@ -35,7 +37,7 @@
 			name="email"
 			disabled={loading}
 			required
-      style="min-width: 250px;"
+			style="min-width: 250px;"
 			bind:value={email}
 		>
 			<HelperText validationMsg slot="helper">Enter a valid email address</HelperText>
