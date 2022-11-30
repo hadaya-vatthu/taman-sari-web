@@ -1,7 +1,7 @@
 import { dateToISODateString } from '$lib/helpers';
 import { supabaseClient } from '$lib/supabaseClient';
-import type { PageLoad } from '.svelte-kit/types/src/routes/attendance/$types';
-import type { DailyOccupantViewRecord } from './$types';
+import type { PageLoad } from './$types';
+import type { DailyOccupantViewRecord } from './types';
 
 const fetchDailyOccupancy = async (dateString: string) => {
 	const { data, error } = await supabaseClient
