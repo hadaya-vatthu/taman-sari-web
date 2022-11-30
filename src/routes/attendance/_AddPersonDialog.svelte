@@ -6,7 +6,6 @@
 	import CircularProgress from '@smui/circular-progress';
 
 	import { supabaseClient } from '$lib/supabaseClient';
-	import { sleep } from '$lib/helpers';
 	import AddPersonForm from './_AddPersonForm.svelte';
 	import type { FormValues } from './types';
 
@@ -23,10 +22,10 @@
 	};
 	let formValues: FormValues = { ...initialFormValues };
 
-	const handleSubmit = async (e: unknown) => {
+	const handleSubmit = async () => {
 		try {
 			isSubmitting = true;
-			const { data, error } = await supabaseClient.from('people').insert({
+			const { error } = await supabaseClient.from('people').insert({
 				...formValues,
 				citizenship: formValues.citizenship.id
 			});

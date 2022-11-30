@@ -46,13 +46,11 @@
 
 <script lang="ts">
   import Drawer, {
-    AppContent,
     Content,
     Header,
     Title,
     Subtitle,
   } from '@smui/drawer';
-  import Button, { Label } from '@smui/button';
   import List, { Item, Text } from '@smui/list';
  
   let open = false;
