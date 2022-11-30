@@ -5,7 +5,7 @@
 	import Button from '@smui/button';
 	import Hero from './_Hero.svelte';
 
-	navbarTitle.set('Taman Sari');
+	navbarTitle.set('PATVDH - Taman Sari');
 </script>
 
 <Hero />
