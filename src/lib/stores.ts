@@ -2,7 +2,7 @@ import type { AuthSession, PostgrestError } from "@supabase/supabase-js";
 import type { PersonRecord } from "src/models/person.model";
 import { writable } from "svelte/store";
 
-export const navbarTitle = writable<string>('Taman Sari')
+export const navbarTitle = writable<string>('PATVDH - Taman Sari')
 
 
 type PersonSlice = {

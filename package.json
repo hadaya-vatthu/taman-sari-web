@@ -64,6 +64,7 @@
 	"dependencies": {
 		"@supabase/auth-helpers-sveltekit": "^0.8.6",
 		"@supabase/supabase-js": "^2.0.5",
-		"strftime": "^0.10.1"
+		"strftime": "^0.10.1",
+		"sveltekit-i18n": "^2.2.2"
 	}
 }

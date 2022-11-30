@@ -8,6 +8,7 @@
 	import OccupantTable from './OccupantTable.svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { t } from '$lib/translations';
 
 	export let data: DailyInfoPageData;
 
@@ -24,7 +25,7 @@
 		goto(`?${searchParams.toString()}`);
 	};
 
-	navbarTitle.set('Daily Information');
+	navbarTitle.set($t('daily-info.title'));
 </script>
 
 <DateTabs {tabs} active={activeDate} on:change={handleChange} />
@@ -36,9 +37,9 @@
 		<OccupantTable data={data.occupants} />
 		<div class="last-update-wrapper">
 			{#if data.lastUpdate === null}
-				<pre>Last update: <span class="never">Never</span></pre>
+				<pre>{$t('daily-info.last-update')}: <span class="never">Never</span></pre>
 			{:else}
-				<pre>Last update: {data.lastUpdate}</pre>
+				<pre>{$t('daily-info.last-update')}: {data.lastUpdate}</pre>
 			{/if}
 		</div>
 	</div>
