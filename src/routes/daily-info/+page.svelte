@@ -4,7 +4,7 @@
 	import { navbarTitle } from '$lib/stores';
 	import LinearProgress from '@smui/linear-progress';
 	import DateTabs from './DateTabs.svelte';
-	import type { DailyInfoPageData } from './$types';
+	import type { DailyInfoPageData } from './types';
 	import OccupantTable from './OccupantTable.svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
