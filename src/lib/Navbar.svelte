@@ -2,7 +2,6 @@
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
 	import IconButton from '@smui/icon-button';
 	import CircularProgress from '@smui/circular-progress';
-	import Button from '@smui/button';
 	import Tooltip, { Wrapper } from '@smui/tooltip';
 
 	import { navbarTitle } from '$lib/stores';
