@@ -1,8 +1,9 @@
 <script lang="ts">
-	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar/src';
-	import IconButton from '@smui/icon-button/src';
+	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
+	import IconButton from '@smui/icon-button';
 	import CircularProgress from '@smui/circular-progress';
-	import Button from '@smui/button/src/Button.svelte';
+	import Button from '@smui/button';
+	import Tooltip, { Wrapper } from '@smui/tooltip';
 
 	import { navbarTitle } from '$lib/stores';
 	import { supabaseClient } from './supabaseClient';
@@ -34,9 +35,12 @@
 		</Section>
 		<Section align="end" toolbar>
 			{#if !$sessionSt}
-				<Button href="/login">Admin-Login</Button>
+				<Wrapper>
+					<IconButton class="material-icons" aria-label="Admin Login" href="/login">admin_panel_settings</IconButton>
+					<Tooltip xPos="start">Admin Login</Tooltip>
+				</Wrapper>
 			{:else if loading}
-				<CircularProgress style="height: 32px; width: 32px;" indeterminate fourColor/>
+				<CircularProgress style="height: 32px; width: 32px;" indeterminate fourColor />
 			{:else}
 				<Button on:click={signOut}>Logout</Button>
 			{/if}
