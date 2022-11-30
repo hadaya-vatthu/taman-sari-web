@@ -2,10 +2,10 @@
 	import List, { Item, Meta, Label } from '@smui/list';
 	import Checkbox from '@smui/checkbox';
 
-	import type { PersonRecord } from 'src/models/person.model';
+	import type { NameRecord } from 'src/models/person.model';
 	import { createEventDispatcher } from 'svelte';
 
-	export let personList: PersonRecord[];
+	export let nameRecords: Pick<NameRecord, "id"|"name">[];
 	export let selected: number[];
 	export let dirties: number[];
 
@@ -14,7 +14,7 @@
 	const handleListSelectionChange = (event: CustomEvent<any>) => {
 		const changedIndices: number[] = event?.detail.changedIndices;
 		const personIdList = changedIndices.map((i) => {
-			const person_id = personList[i].id;
+			const person_id = nameRecords[i].id;
 			return { person_id, checked: selected.includes(person_id) };
 		});
 		dispatch('selectionChange', personIdList);
@@ -28,14 +28,14 @@
 		on:SMUIList:action
 		on:SMUIList:selectionChange={(e) => handleListSelectionChange(e)}
 	>
-		{#each personList as person (person.id)}
-			<Item disabled={dirties.includes(person.id)}>
-				<Label>{person.name}</Label>
+		{#each nameRecords as record (record.id)}
+			<Item disabled={dirties.includes(record.id)}>
+				<Label>{record.name}</Label>
 				<Meta>
 					<Checkbox
 						bind:group={selected}
-						value={person.id}
-						indeterminate={dirties.includes(person.id)}
+						value={record.id}
+						indeterminate={dirties.includes(record.id)}
 						disabled
 					/>
 				</Meta>
