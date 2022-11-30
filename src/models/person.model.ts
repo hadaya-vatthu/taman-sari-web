@@ -5,13 +5,23 @@
 declare const _personId: unique symbol;
 export type PersonId = number & { readonly [_personId]: never };
 
+interface Person {
+	birth_name: string;
+	citizenship: number;
+	id_card: string;
+	birth_year: number;
+	domicile: string;
+}
 
-export type Person = {
+export interface PersonRecord extends Readonly<Person> {
+	readonly id: PersonId;
+}
+
+interface Name {
 	name: string;
-	citizenship?: number;
-} 
+	birth_name: string;
+}
 
-// samana_type: 'Bhikkhu' | 'Samanera' | 'Sayalay' | null;
-
-export type PersonRecord = Person & {id: PersonId};
-
+export interface NameRecord extends Readonly<Name> {
+	readonly id: PersonId;
+}
