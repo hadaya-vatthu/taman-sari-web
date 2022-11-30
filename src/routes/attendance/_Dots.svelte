@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Dot from './_Dot.svelte';
 
-	export let dots: boolean[]
+	export let dots: boolean[];
 
 	const getOpacity = (length: number, i: number) => {
 		return (i + 2) / (length + 1);

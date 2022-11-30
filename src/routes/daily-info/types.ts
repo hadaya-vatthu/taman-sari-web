@@ -4,7 +4,7 @@ export type DailyOccupantViewRecord = {
 	citizenship_name: string;
 	sex: 'm' | 'f';
 	date: string;
-  count: number;
+	count: number;
 };
 
 export type DailyInfoPageData = {

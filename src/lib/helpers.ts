@@ -63,6 +63,6 @@ export const getDateParam = (url: URL) => {
 
 	// Modify date param to today (invisibly)
 	url.searchParams.set('date', today);
-	
+
 	return today;
 };

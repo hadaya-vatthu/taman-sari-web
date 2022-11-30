@@ -3,7 +3,7 @@
 	export let opacity: number = 1;
 </script>
 
-<span class={visible ? '' : 'hidden'} style:opacity={opacity} />
+<span class={visible ? '' : 'hidden'} style:opacity />
 
 <style>
 	.hidden {

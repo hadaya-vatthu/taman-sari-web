@@ -35,14 +35,18 @@
 		<Section align="end" toolbar>
 			{#if !$sessionSt}
 				<Wrapper>
-					<IconButton class="material-icons" aria-label="Admin Login" href="/login">admin_panel_settings</IconButton>
+					<IconButton class="material-icons" aria-label="Admin Login" href="/login"
+						>admin_panel_settings</IconButton
+					>
 					<Tooltip xPos="start">Admin Login</Tooltip>
 				</Wrapper>
 			{:else if loading}
 				<CircularProgress style="height: 32px; width: 32px;" indeterminate fourColor />
 			{:else}
-			<Wrapper>
-					<IconButton class="material-icons" aria-label="Logout" on:click={signOut}>logout</IconButton>
+				<Wrapper>
+					<IconButton class="material-icons" aria-label="Logout" on:click={signOut}
+						>logout</IconButton
+					>
 					<Tooltip xPos="start">Logout</Tooltip>
 				</Wrapper>
 			{/if}
