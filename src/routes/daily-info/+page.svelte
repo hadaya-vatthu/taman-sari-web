@@ -36,10 +36,11 @@
 	<div class="table-wrapper">
 		<OccupantTable data={data.occupants} />
 		<div class="last-update-wrapper">
+			<pre>{$t('daily-info.last-update')}: </pre>
 			{#if data.lastUpdate === null}
-				<pre>{$t('daily-info.last-update')}: <span class="never">Never</span></pre>
+				<pre class="never">Never</pre>
 			{:else}
-				<pre>{$t('daily-info.last-update')}: {data.lastUpdate}</pre>
+				<pre>{data.lastUpdate}</pre>
 			{/if}
 		</div>
 	</div>
@@ -56,10 +57,12 @@
 	}
 	.last-update-wrapper {
 		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
 	}
 	pre {
 		color: gray;
-		margin-top: 0.5em;
+		margin: 0.5em 0 0 0;
 	}
 	.never {
 		color: red;
