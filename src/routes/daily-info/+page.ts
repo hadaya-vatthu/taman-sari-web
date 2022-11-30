@@ -12,6 +12,22 @@ const fetchDailyOccupancy = async (dateString: string) => {
 	return data as DailyOccupantViewRecord[];
 };
 
+const fetchLastUpdate = async (dateString: string) => {
+	const { data, error } = await supabaseClient
+		.from('daily_updates')
+		.select('last_update')
+		.eq('date', dateString)
+		.single();
+	if (error) {
+		if (error.code === 'PGRST116') return null
+		throw error;
+	}
+	if (!data) return null;
+
+	const lastUpdate = new Date(data.last_update).toLocaleString();
+	return lastUpdate;
+};
+
 export const load: PageLoad = async ({ url }) => {
 	let _date = url.searchParams.get('date');
 	if (!_date) {
@@ -21,6 +37,7 @@ export const load: PageLoad = async ({ url }) => {
 	}
 
 	return {
-		occupants: fetchDailyOccupancy(_date)
+		occupants: fetchDailyOccupancy(_date),
+		lastUpdate: fetchLastUpdate(_date)
 	};
 };
