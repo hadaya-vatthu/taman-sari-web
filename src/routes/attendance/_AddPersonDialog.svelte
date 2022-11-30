@@ -8,7 +8,7 @@
 	import { supabaseClient } from '$lib/supabaseClient';
 	import { sleep } from '$lib/helpers';
 	import AddPersonForm from './_AddPersonForm.svelte';
-	import type { FormValues } from './$types';
+	import type { FormValues } from './types';
 
 	export let open = false;
 

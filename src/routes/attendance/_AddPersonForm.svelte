@@ -11,7 +11,7 @@
 
 	import RadioField from './RadioField.svelte';
 	import RadioItem from './RadioItem.svelte';
-	import type { CountryState, FormValues } from './$types';
+	import type { CountryState, FormValues } from './types';
 
 	export let fields: FormValues;
 
