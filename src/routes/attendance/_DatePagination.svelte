@@ -1,5 +1,8 @@
 <script lang="ts">
-	import { addDays } from '$lib/helpers';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+
+	import { addDays, dateToISODateString } from '$lib/helpers';
 	import IconButton from '@smui/icon-button';
 	import TopAppBar, { Row, Section } from '@smui/top-app-bar';
 	import Tooltip, { Wrapper } from '@smui/tooltip';
@@ -11,16 +14,25 @@
 	$: title = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
 	$: isToday = date.toLocaleDateString() === today.toLocaleDateString();
 
+	const gotoDate = (date: Date) => {
+		const searchParams = new URLSearchParams($page.url.searchParams);
+		searchParams.set('date', dateToISODateString(date));
+		goto(`?${searchParams.toString()}`);
+	};
+
 	const handlePrev = () => {
-		date = addDays(date, -1);
+		const prevDay = addDays(date, -1);
+		gotoDate(prevDay);
 	};
 
 	const handleNext = () => {
-		date = addDays(date, 1);
+		const nextDay = addDays(date, 1);
+		gotoDate(nextDay);
 	};
 
 	const handleToday = () => {
-		date = new Date();
+		const today = new Date();
+		gotoDate(today);
 	};
 </script>
 

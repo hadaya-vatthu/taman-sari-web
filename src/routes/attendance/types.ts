@@ -1,3 +1,5 @@
+import type { NameRecord, PersonId } from 'src/models/person.model';
+
 export type CountryId = number;
 export type CountryRecord = { id: CountryId } & { name: string };
 export type CountryState = {
@@ -12,3 +14,6 @@ export type FormValues = {
 	birth_year: number | null;
 	domicile: string | null;
 };
+
+type PersonListItem = Pick<NameRecord, 'id' | 'name'> & { dots: boolean[] }
+export type PersonListItems = PersonListItem[];
