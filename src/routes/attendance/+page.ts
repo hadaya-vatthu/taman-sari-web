@@ -3,19 +3,18 @@ import { supabaseClient } from '$lib/supabaseClient';
 import type { NameRecord, PersonId } from 'src/models/person.model';
 import type { PresenceRecord } from 'src/models/presence.model';
 import { addDays, dateToISODateString, getDateParam } from '$lib/helpers';
+import type { FullSamanaRecord } from 'src/models/full_samana.model';
 
-type FetchNamesData = Pick<NameRecord, 'id' | 'name' | 'birth_name'>[];
-
-const fetchNames = async () => {
-	const { data, error } = await supabaseClient
-		.from('names')
-		.select('id, name, birth_name')
-		.order('id');
-	if (error) throw error;
-	return data as FetchNamesData;
-};
-
+type FetchPeopleData = Pick<FullSamanaRecord, 'id' | 'name' | 'birth_name' | 'samana_type'>[];
 type FetchPresencesByDateData = PresenceRecord[];
+
+const fetchPeople = async () => {
+	const { data, error } = await supabaseClient
+		.from('full_people')
+		.select('id, name, birth_name, samana_type');
+	if (error) throw error;
+	return data as FetchPeopleData;
+};
 
 const fetchPresencesByDate = async (window: string[]) => {
 	const { data, error } = await supabaseClient.from('presences').select().in('date', window);
@@ -37,7 +36,7 @@ export const load: PageLoad = async ({ url }) => {
 			.map((_, i) => dateToISODateString(addDays(activeDate, i - windowSize))),
 		_activeDate
 	];
-	const [names, presences] = await Promise.all([fetchNames(), fetchPresencesByDate(dateWindow)]);
+	const [names, presences] = await Promise.all([fetchPeople(), fetchPresencesByDate(dateWindow)]);
 
 	const peopleIds = names.map((n) => n.id);
 
@@ -63,7 +62,7 @@ export const load: PageLoad = async ({ url }) => {
 };
 
 export type AttendancePageData = {
-	names: FetchNamesData;
+	names: FetchPeopleData;
 	presences: PresenceRecord[];
 	peopleDots: { [id: PersonId]: boolean[] };
 	dateWindow: string[];

@@ -11,6 +11,7 @@ interface Person {
 	id_card: string;
 	birth_year: number;
 	domicile: string;
+	sex: 'm'|'f';
 }
 
 export interface PersonRecord extends Readonly<Person> {

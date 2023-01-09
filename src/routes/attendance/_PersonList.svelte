@@ -5,8 +5,10 @@
 	import { createEventDispatcher } from 'svelte';
 	import Dots from './_Dots.svelte';
 	import type { PersonListItems } from './types';
+	import Separator from '@smui/list/src/Separator.svelte';
 
 	export let items: PersonListItems;
+	export let separatorPositions: number[] = [];
 	export let selected: number[];
 	export let dirties: number[];
 
@@ -29,7 +31,10 @@
 		on:SMUIList:action
 		on:SMUIList:selectionChange={(e) => handleListSelectionChange(e)}
 	>
-		{#each items as item (item.id)}
+		{#each items as item, i (item.id)}
+			{#if separatorPositions.includes(i)}
+				<Separator />
+			{/if}
 			<Item disabled={dirties.includes(item.id)}>
 				<Label
 					><div>

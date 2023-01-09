@@ -14,52 +14,44 @@
 	import DatePagination from './_DatePagination.svelte';
 	import AddPersonFab from './_AddPersonFAB.svelte';
 	import AddPersonDialog from './_AddPersonDialog.svelte';
+	import type { EnumSamanaType as ESamanaType } from 'src/models/samana.model';
+
+	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
 
 	const windowSize = 5;
+	const samanaOrders: (ESamanaType | null)[] = ['Bhikkhu', 'Samanera', 'Sayalay', null];
 
 	export let data: AttendancePageData;
 
-	// let activeDate = new Date();
-	// let presences: PresenceRecord[] = [];
 	let dirties: number[] = [];
 	let loading = false;
 	let open = false;
 	let isMounted = false;
 
 	$: disabled = !!dirties.length;
-
-	// $: dateWindow = [...Array(windowSize)].map((_, i) =>
-	// 	dateToISODateString(addDays(activeDate, i - windowSize))
-	// );
-	// // $: fetchPresencesByDate(dateWindow).then((data) => (presences = data));
-
 	$: _activeDate = data.dateWindow[windowSize];
 	$: todaysPresences = data.presences.filter((p) => p.date === _activeDate);
 	$: selected = todaysPresences.map((p) => p.person_id);
 
-	$: personListItems = data.names.map((p) => ({ ...p, dots: data.peopleDots[p.id] }));
-	// $: nameRecords = data.names;
+	$: personListItems = data.names
+		.map((p) => ({ ...p, dots: data.peopleDots[p.id] }))
+		.sort(
+			(a, b) =>
+				samanaOrders.findIndex((v) => v === a.samana_type) -
+				samanaOrders.findIndex((v) => v === b.samana_type)
+		);
+	$: separatorPositions = personListItems
+		.map((p) => p.samana_type)
+		.map((current, i, arr) => {
+			if (i === 0) return null;
 
-	// const fetchPresencesByDate = async (window: string[]) => {
-	// 	try {
-	// 		loading = true;
-	// 		// const now = dateToISODateString(date);
-	// 		// const prev = dateToISODateString(addDays(date, -5));
-	// 		const { data, error } = await supabaseClient.from('presences').select().in('date', window);
-	// 		// .gt('date', prev)
-	// 		// .lte('date', now);
-	// 		if (error) throw error;
-	// 		return data as PresenceRecord[];
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 		if (error instanceof Error) alert(error.message);
-	// 		return [];
-	// 	} finally {
-	// 		loading = false;
-	// 	}
-	// };
+			const prev = arr[i - 1];
+			if (current === prev) return null;
 
-	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
+			return i;
+		})
+		.filter((x) => x !== null) as number[];
+
 	const handleSelectionChange = async (event: SelectionChangeEvent) => {
 		const changes = event?.detail;
 		const _date = dateToISODateString(data.activeDate);
@@ -151,6 +143,7 @@
 {/if}
 <PersonList
 	items={personListItems}
+	{separatorPositions}
 	{selected}
 	{dirties}
 	on:selectionChange={handleSelectionChange}
