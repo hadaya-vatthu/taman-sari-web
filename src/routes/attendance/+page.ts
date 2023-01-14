@@ -22,7 +22,7 @@ const fetchPresencesByDate = async (window: string[]) => {
 	return data as FetchPresencesByDateData;
 };
 
-export const load: PageLoad = async ({ url }) => {
+export const load: PageLoad = async ({ url, depends }) => {
 	// `fetchPeople` return a promise so this will simply avoid waterfall issues.
 	// See https://kit.svelte.dev/docs/load#parallel-loading
 	const windowSize = 5;
@@ -57,6 +57,9 @@ export const load: PageLoad = async ({ url }) => {
 		.sort((a, b) => b.value - a.value);
 
 	const sortedNames = orders.map((o) => names.find((n) => n.id === o.id));
+
+	// Re-run `load` if `invalidate('app:presences')` is called.
+	depends('app:presences');
 
 	return { names: sortedNames, presences, peopleDots, dateWindow, activeDate };
 };
