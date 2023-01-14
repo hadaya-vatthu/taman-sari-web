@@ -4,7 +4,7 @@
 	import LinearProgress from '@smui/linear-progress';
 
 	import { navbarTitle } from '$lib/stores';
-	import { dateToISODateString } from '$lib/helpers';
+	import { addDays, dateToISODateString } from '$lib/helpers';
 	import { supabaseClient } from '$lib/supabaseClient';
 
 	import type { PresenceRecord } from 'src/models/presence.model';
@@ -12,9 +12,11 @@
 	import type { AttendancePageData } from './+page';
 	import PersonList from './_PersonList.svelte';
 	import DatePagination from './_DatePagination.svelte';
-	import AddPersonFab from './_AddPersonFAB.svelte';
 	import AddPersonDialog from './_AddPersonDialog.svelte';
 	import type { EnumSamanaType as ESamanaType } from 'src/models/samana.model';
+	import Fab from '@smui/fab/src/Fab.svelte';
+	import { Icon } from '@smui/common';
+	import { invalidate } from '$app/navigation';
 
 	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
 
@@ -106,6 +108,26 @@
 		}
 	};
 
+	const handleCopyAll = async () => {
+		if (confirm('This will overwrite current data with data from yesterday. Are you sure?')) {
+			try {
+				await fetch('/api/presences/copy', {
+					method: 'POST',
+					body: JSON.stringify({
+						from: addDays(_activeDate, -1),
+						to: _activeDate
+					}),
+					headers: {
+						'content-type': 'application/json'
+					}
+				});
+				invalidate('app:presences');
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
+
 	navbarTitle.set('Attendance Management');
 
 	onMount(async () => {
@@ -150,6 +172,33 @@
 />
 
 {#if isMounted}
-	<AddPersonFab autoHide on:click={() => (open = !open)} />
+	<!-- <AddPersonFab autoHide on:click={() => (open = !open)} /> -->
+	<div class="fabs">
+		<div class="fab"><Fab color="secondary"><Icon class="material-icons">edit</Icon></Fab></div>
+		<div class="fab">
+			<Fab color="primary" mini on:click={() => (open = !open)}
+				><Icon class="material-icons">add</Icon></Fab
+			>
+		</div>
+		<div class="fab">
+			<Fab color="primary" mini on:click={handleCopyAll}
+				><Icon class="material-icons">copy_all</Icon></Fab
+			>
+		</div>
+	</div>
 	<AddPersonDialog bind:open />
 {/if}
+
+<style>
+	.fab {
+		margin-top: 8px;
+	}
+	.fabs {
+		position: fixed;
+		right: 16px;
+		bottom: 16px;
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: center;
+	}
+</style>

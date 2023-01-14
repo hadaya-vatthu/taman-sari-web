@@ -16,6 +16,9 @@
 		<Fab color="primary" mini={hide} on:click>
 			<Icon class="material-icons">add</Icon>
 		</Fab>
+		<Fab color="primary">
+			<Icon class="material-icons">copy</Icon>
+		</Fab>
 	</div>
 {/if}
 

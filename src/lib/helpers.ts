@@ -1,9 +1,14 @@
 /**
  * Returns new date which has the days added.
  *
+ * Example:
+ * ```javascript
+ *   addDays('2023-02-01', -3);
+ *   // Returns '2023-01-29'
+ * ```
  */
-export const addDays = (date: Date, days: number) => {
-	const _date = new Date(date.valueOf());
+export const addDays = (date: Date | string, days: number) => {
+	const _date = new Date(typeof date === 'string' ? date : date.valueOf());
 	_date.setDate(_date.getDate() + days);
 	return _date;
 };
