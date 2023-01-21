@@ -32,7 +32,11 @@
 <Meta
 	title={$t('daily-info.meta.title')}
 	description={$t('daily-info.meta.description')}
-	image="./og-image_daily-info.png"
+	images={[
+		// { src: './og-image_daily-info.png', width: 770, height: 420 },
+		{ src: './og-image_daily-info_400x400.png', width: 400, height: 400 },
+		// { src: './og-image_daily-info_wa.png', width: 290, height: 400 }
+	]}
 />
 
 <DateTabs {tabs} active={activeDate} on:change={handleChange} />
