@@ -1,5 +1,8 @@
 {
-	"meta": { "title": "Daily Info" },
+	"meta": {
+		"title": "Daily Info",
+		"description": "Display the information about attendees in Pa Auk Tawya Vipassana Dhura Hermitage Tamansari meditation center"
+	},
 	"title": "Daily Information",
 	"occupant-table": {
 		"col1": "Occupant",
