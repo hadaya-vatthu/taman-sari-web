@@ -2,7 +2,7 @@
 	import { prefetch } from '$app/navigation';
 	import { navbarTitle } from '$lib/stores';
 	import { sessionSt } from '$lib/stores';
-	import Title from '$lib/Title.svelte';
+	import Meta from '$lib/Meta.svelte';
 	import { t } from '$lib/translations';
 	import Button from '@smui/button';
 	import Hero from './_Hero.svelte';
@@ -10,7 +10,7 @@
 	navbarTitle.set('PATVDH - Taman Sari');
 </script>
 
-<Title title={$t('home.meta.title')}/>
+<Meta title={$t('home.meta.title')}/>
 
 <Hero />
 

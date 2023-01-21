@@ -19,9 +19,10 @@ export const load: LayoutLoad = async (event) => {
 
 	await loadTranslations(initLocale, pathname); // keep this just before the `return`
 
-	return { session: loadSession(event) };
+	return { session: loadSession(event), initLocale };
 };
 
 export type LayoutData = {
 	session: NavbarProps['session'];
+	initLocale: string;
 };

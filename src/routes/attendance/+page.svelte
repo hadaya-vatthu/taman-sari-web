@@ -17,7 +17,7 @@
 	import Fab from '@smui/fab/src/Fab.svelte';
 	import { Icon } from '@smui/common';
 	import { invalidate } from '$app/navigation';
-	import Title from '$lib/Title.svelte';
+	import Meta from '$lib/Meta.svelte';
 
 	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
 
@@ -156,7 +156,7 @@
 	});
 </script>
 
-<Title title="Presences" />
+<Meta title="Presences" />
 
 <DatePagination date={data.activeDate} {disabled} />
 {#if loading}

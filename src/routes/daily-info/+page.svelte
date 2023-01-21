@@ -9,7 +9,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { t } from '$lib/translations';
-	import Title from '$lib/Title.svelte';
+	import Meta from '$lib/Meta.svelte';
 
 	export let data: DailyInfoPageData;
 
@@ -29,7 +29,11 @@
 	navbarTitle.set($t('daily-info.title'));
 </script>
 
-<Title title={$t('daily-info.meta.title')} />
+<Meta
+	title={$t('daily-info.meta.title')}
+	description={$t('daily-info.meta.description')}
+	image="./og-image_daily-info.png"
+/>
 
 <DateTabs {tabs} active={activeDate} on:change={handleChange} />
 

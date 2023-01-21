@@ -1,5 +1,8 @@
 {
-	"meta": { "title": "Info Harian" },
+	"meta": {
+		"title": "Info Harian",
+		"description": "Menampilkan informasi jumlah penghuni di pusat meditasi Pa Auk Tawya Vipassana Dhura Hermitage Tamansari"
+	},
 	"title": "Informasi Harian",
 	"occupant-table": {
 		"col1": "Penghuni",
