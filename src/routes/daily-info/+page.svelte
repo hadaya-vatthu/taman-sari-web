@@ -34,7 +34,7 @@
 	description={$t('daily-info.meta.description')}
 	images={[
 		// { src: './og-image_daily-info.png', width: 770, height: 420 },
-		{ src: './og-image_daily-info_400x400.png', width: 400, height: 400 },
+		{ src: '/og-image_daily-info_400x400.png', width: 400, height: 400 },
 		// { src: './og-image_daily-info_wa.png', width: 290, height: 400 }
 	]}
 />
