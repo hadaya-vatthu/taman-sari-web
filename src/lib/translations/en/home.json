@@ -1,4 +1,5 @@
 {
+	"meta": { "title": "Home" },
 	"greeting": "Welcome to",
 	"daily-info-btn-label": "Daily Information",
 	"attendance-btn-label": "Attendance Management"

@@ -17,6 +17,7 @@
 	import Fab from '@smui/fab/src/Fab.svelte';
 	import { Icon } from '@smui/common';
 	import { invalidate } from '$app/navigation';
+	import Title from '$lib/Title.svelte';
 
 	type SelectionChangeEvent = CustomEvent<{ person_id: number; checked: boolean }[]>;
 
@@ -128,7 +129,7 @@
 		}
 	};
 
-	navbarTitle.set('Attendance Management');
+	navbarTitle.set('Presences');
 
 	onMount(async () => {
 		// const presenceSubs = supabaseClient
@@ -155,9 +156,7 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Attendance - Taman Sari</title>
-</svelte:head>
+<Title title="Presences" />
 
 <DatePagination date={data.activeDate} {disabled} />
 {#if loading}

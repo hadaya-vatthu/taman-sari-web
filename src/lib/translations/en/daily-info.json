@@ -1,4 +1,5 @@
 {
+	"meta": { "title": "Daily Info" },
 	"title": "Daily Information",
 	"occupant-table": {
 		"col1": "Occupant",
