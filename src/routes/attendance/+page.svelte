@@ -68,7 +68,7 @@
 			const insertPromise = async () => {
 				if (!insertTargets.length) return [];
 				const { data, error } = await supabaseClient
-					.from('presences')
+					.from('presences_old')
 					.insert(insertTargets)
 					.select();
 				if (error) throw error;
@@ -78,7 +78,7 @@
 			const deletePromise = async () => {
 				if (!deleteTargets.length) return [];
 				const { data, error } = await supabaseClient
-					.from('presences')
+					.from('presences_old')
 					.delete()
 					.eq('date', _date)
 					.eq('person_id', deleteTargets)
