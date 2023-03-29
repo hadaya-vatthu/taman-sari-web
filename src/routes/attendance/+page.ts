@@ -17,7 +17,7 @@ const fetchPeople = async () => {
 };
 
 const fetchPresencesByDate = async (window: string[]) => {
-	const { data, error } = await supabaseClient.from('presences').select().in('date', window);
+	const { data, error } = await supabaseClient.from('presences_old').select().in('date', window);
 	if (error) throw error;
 	return data as FetchPresencesByDateData;
 };

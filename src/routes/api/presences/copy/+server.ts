@@ -39,16 +39,16 @@ export const POST = (async (event) => {
 	if (!session) throw error(401, 'You are not logged in!');
 
 	try {
-		await supabaseClient.from('presences').delete().eq('date', body.to);
+		await supabaseClient.from('presences_old').delete().eq('date', body.to);
 
 		const presences = await supabaseClient
-			.from('presences')
+			.from('presences_old')
 			.select('person_id')
 			.eq('date', body.from);
 		if (presences.error) throw error;
 		if (presences.data === null) return json(null);
 
-		const insertReq = supabaseClient.from('presences');
+		const insertReq = supabaseClient.from('presences_old');
 		if (typeof body.to === 'string') {
 			const result = await insertReq
 				.insert(presences.data?.map(({ person_id }) => ({ person_id, date: body.to })))
